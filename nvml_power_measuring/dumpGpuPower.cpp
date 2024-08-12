@@ -156,7 +156,11 @@ int measurePower(char* oFileName, int csv, int devId, nvmlDevice_t* dev, int sam
 
     while( samplesRemaining > 0 ) {
        
-        res = nvmlDeviceGetUtilizationRates ( *dev, &util);
+	// Throttle to sample rate
+        usleep(sampleRate * 1000.0);
+        //increment number of samples processed
+        
+	res = nvmlDeviceGetUtilizationRates ( *dev, &util);
 
         res = nvmlDeviceGetTemperature( *dev, NVML_TEMPERATURE_GPU, &temperature );
 
